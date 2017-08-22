@@ -947,6 +947,9 @@ ifdef CONFIG_SECOND_LEVEL_BOOTLOADER
 							./tools/rk_tools/RKTRUST/$(RKCHIP)TRUST.ini &&) \
 	$(if $(CONFIG_MERGER_TRUSTOS), ./tools/loaderimage --pack --trustos $(RK_TOS_BIN) trust.img &&) \
 	./tools/loaderimage --pack --uboot u-boot.bin uboot.img
+	dd if=../rkbin/rk33/rk3328_ddr_786MHz_v1.06.bin of=DDRTEMP bs=4 skip=1
+	tools/mkimage -n rk3328 -T rksd -d DDRTEMP idbloader.img
+	cat ../rkbin/rk33/rk3328_miniloader_v2.43.bin >> idbloader.img
 else
 	./tools/boot_merger --subfix "$(RK_SUBFIX)" ./tools/rk_tools/RKBOOT/$(RKCHIP).ini
 endif # CONFIG_SECOND_LEVEL_BOOTLOADER
